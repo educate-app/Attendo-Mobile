@@ -69,7 +69,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     setState(() {
       this.controller = controller;
     });
-    controller.scannedDataStream.listen((scanData) async{
+    controller.scannedDataStream.listen((scanData) async {
       setState(() {
         result = scanData;
       });

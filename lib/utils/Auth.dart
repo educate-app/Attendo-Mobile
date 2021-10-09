@@ -1,3 +1,4 @@
+import 'package:attendo/pages/form_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -49,10 +50,11 @@ class Authentication {
   Future<void> signUpWithEmailAndPassword(
       String email, String password, BuildContext context) async {
     try {
-      _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await Navigator.of(context).pushReplacementNamed(FormPage.routeName);
     } on FirebaseAuthException catch (e) {
       await showDialog(
           context: context,
