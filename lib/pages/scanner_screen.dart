@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase/firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,7 +8,12 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScannerScreen extends StatefulWidget {
   final String name, classId, enrollNo;
-  const ScannerScreen({Key? key, required this.name, required this.classId, required this.enrollNo}) : super(key: key);
+  const ScannerScreen(
+      {Key? key,
+      required this.name,
+      required this.classId,
+      required this.enrollNo})
+      : super(key: key);
 
   @override
   _ScannerScreenState createState() => _ScannerScreenState();
@@ -23,7 +27,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
   var _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: Stack(
       children: [
@@ -79,25 +82,36 @@ class _ScannerScreenState extends State<ScannerScreen> {
       setState(() {
         result = scanData;
       });
-      var snapshot = await _firestore.collection('classes').doc(widget.classId).get();
-      if(snapshot.exists) {
-        var data = snapshot.data()!;
-        if(data["attendees"] != null && data['attendees'][scanData] != null) {
-          if(data["attendees"][scanData]["used"] == false) {
-            await _firestore.collection("classes").doc(widget.classId).update({
-              'attendees.$scanData': {
-                "used": true,
-                "studentName": widget.name,
-                "studentEnr": widget.enrollNo,
-                "markedOn": Timestamp.now(),
-              }
-            });
-            Fluttertoast.showToast(msg: "Attendance marked successfully");
-            Navigator.pop(context);
+      // print(result);
+      if (result != null) {
+        var snapshot =
+            await _firestore.collection('classes').doc(widget.classId).get();
+        if (snapshot.exists) {
+          var data = snapshot.data()!;
+          // print(data);
+          // print(data['attendees']);
+          // print(data[result]);
+          if (data["attendees"] != null &&
+              data['attendees'][result!.code] != null) {
+            if (data["attendees"][result!.code]["used"] == false) {
+              await _firestore
+                  .collection("classes")
+                  .doc(widget.classId)
+                  .update({
+                'attendees.${scanData.code}': {
+                  "used": true,
+                  "studentName": widget.name,
+                  "studentEnr": widget.enrollNo,
+                  "markedOn": Timestamp.now(),
+                }
+              });
+
+              Fluttertoast.showToast(msg: "Attendance marked successfully");
+              if (mounted) Navigator.of(context).pop();
+            }
+          } else {
+            Fluttertoast.showToast(msg: "Invalid QR Code");
           }
-        }
-        else {
-          Fluttertoast.showToast(msg: "Invalid QR Code");
         }
       }
     });

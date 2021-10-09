@@ -1,3 +1,4 @@
+import 'package:attendo/models/form_model.dart';
 import 'package:attendo/pages/scanner_screen.dart';
 import 'package:attendo/providers/auth_provider.dart';
 import 'package:attendo/providers/user_data_provider.dart';
@@ -14,6 +15,7 @@ class HomePage extends ConsumerWidget {
     //  Second variable to access the Logout Function
     final _auth = watch(authenticationProvider);
     final _user = watch(userProvider);
+    FormModel? _userData = watch(currUserProvider).state;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -27,13 +29,14 @@ class HomePage extends ConsumerWidget {
       ),
       body: _user.when(
         data: (data) {
+          _userData = data;
           return SafeArea(
               child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Welcome,',
+                  'Welcome, ${data?.name}',
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ),
@@ -47,9 +50,13 @@ class HomePage extends ConsumerWidget {
           elevation: 0.0,
           child: new Icon(Icons.qr_code_scanner),
           onPressed: () {
-            // Navigator.of(context).push(MaterialPageRoute(
-            //   builder: (context) => ScannerScreen(),
-            // ));
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ScannerScreen(
+                enrollNo: _userData?.enrollmentnumber.toString() as String,
+                name: _userData?.name as String,
+                classId: 'z7eydjQbpZKGYQTtYdGX',
+              ),
+            ));
           }),
     );
   }

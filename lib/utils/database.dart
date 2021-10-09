@@ -42,11 +42,12 @@ class FirestoreDatabase {
   }
 
   Future<FormModel?> getCurrentUser() async {
-    final enrollmentNumber =
+    final int enrollmentNumber =
         await SharedPreferencesFetcher.getEnrollmentNumber();
+    print(enrollmentNumber);
     try {
       final docs = await FirebaseFirestore.instance
-          .collection('movies')
+          .collection('students')
           .doc(enrollmentNumber.toString())
           .withConverter<FormModel>(
             fromFirestore: (snapshot, _) => FormModel.fromMap(snapshot.data()!),
