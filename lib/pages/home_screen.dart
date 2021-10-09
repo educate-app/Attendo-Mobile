@@ -27,7 +27,6 @@ class HomePage extends ConsumerWidget {
       ),
       body: _user.when(
         data: (data) {
-          
           return SafeArea(
               child: Column(
             children: [
@@ -48,9 +47,9 @@ class HomePage extends ConsumerWidget {
           elevation: 0.0,
           child: new Icon(Icons.qr_code_scanner),
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ScannerScreen(),
-            ));
+            // Navigator.of(context).push(MaterialPageRoute(
+            //   builder: (context) => ScannerScreen(),
+            // ));
           }),
     );
   }

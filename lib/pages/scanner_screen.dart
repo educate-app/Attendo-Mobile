@@ -1,11 +1,15 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase/firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScannerScreen extends StatefulWidget {
-  const ScannerScreen({Key? key}) : super(key: key);
+  final String name, classId, enrollNo;
+  const ScannerScreen({Key? key, required this.name, required this.classId, required this.enrollNo}) : super(key: key);
 
   @override
   _ScannerScreenState createState() => _ScannerScreenState();
@@ -16,8 +20,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
+  var _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Stack(
       children: [
@@ -73,7 +79,27 @@ class _ScannerScreenState extends State<ScannerScreen> {
       setState(() {
         result = scanData;
       });
-      //logic
+      var snapshot = await _firestore.collection('classes').doc(widget.classId).get();
+      if(snapshot.exists) {
+        var data = snapshot.data()!;
+        if(data["attendees"] != null && data['attendees'][scanData] != null) {
+          if(data["attendees"][scanData]["used"] == false) {
+            await _firestore.collection("classes").doc(widget.classId).update({
+              'attendees.$scanData': {
+                "used": true,
+                "studentName": widget.name,
+                "studentEnr": widget.enrollNo,
+                "markedOn": Timestamp.now(),
+              }
+            });
+            Fluttertoast.showToast(msg: "Attendance marked successfully");
+            Navigator.pop(context);
+          }
+        }
+        else {
+          Fluttertoast.showToast(msg: "Invalid QR Code");
+        }
+      }
     });
   }
 
