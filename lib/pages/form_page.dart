@@ -1,4 +1,5 @@
 import 'package:attendo/models/form_model.dart';
+import 'package:attendo/models/regex.dart';
 import 'package:attendo/providers/database_provider.dart';
 import 'package:attendo/widgets/custom_button.dart';
 import 'package:attendo/widgets/custom_tile_widget.dart';
@@ -78,25 +79,53 @@ class _FormPageState extends State<FormPage> {
                   child: Column(
                     children: [
                       CustomTileWidget(
-                          controller: _controllers[0],
-                          title: 'Full Name',
-                          icon: Icons.person_outline_outlined,
-                          inputType: TextInputType.text),
+                        controller: _controllers[0],
+                        title: 'Full Name',
+                        icon: Icons.person_outline_outlined,
+                        inputType: TextInputType.text,
+                        onChanged: (v) {
+                          if (v!.isValidName)
+                            return null;
+                          else
+                            return 'Please enter a Valid name';
+                        },
+                      ),
                       CustomTileWidget(
-                          controller: _controllers[1],
-                          title: 'College Email Address',
-                          icon: Icons.mail_outline,
-                          inputType: TextInputType.emailAddress),
+                        controller: _controllers[1],
+                        title: 'College Email Address',
+                        icon: Icons.mail_outline,
+                        inputType: TextInputType.emailAddress,
+                        onChanged: (v) {
+                          if (v!.isValidEmail)
+                            return null;
+                          else
+                            return 'Please enter a Valid Email';
+                        },
+                      ),
                       CustomTileWidget(
-                          controller: _controllers[2],
-                          title: 'Enrollment Number',
-                          icon: Icons.school_rounded,
-                          inputType: TextInputType.number),
+                        controller: _controllers[2],
+                        title: 'Enrollment Number',
+                        icon: Icons.school_rounded,
+                        inputType: TextInputType.number,
+                        onChanged: (v) {
+                          // if (v!.isValidEnrollmentNumber)
+                          //   return null;
+                          // else
+                          //   return 'Please enter a Valid Enrollment Number';
+                        },
+                      ),
                       CustomTileWidget(
                           controller: _controllers[3],
                           title: 'Phone Number',
                           icon: Icons.phone_android_outlined,
-                          inputType: TextInputType.number),
+                          inputType: TextInputType.number,
+                          onChanged: (v) {
+                            // if (v!.isValidPhone)
+                            //   return null;
+                            // else
+                            //   return 'Please enter a Valid Phone Number';
+                          }),
+
                       // Spacer(),
                       CustomButton(onPressed: _onClick, text: 'Submit')
                     ],
