@@ -4,14 +4,13 @@ class CustomTileWidget extends StatelessWidget {
   final TextEditingController controller;
   final String title;
   final IconData icon;
-  final VoidCallback onClick;
   final TextInputType inputType;
+
   const CustomTileWidget({
     Key? key,
     required this.controller,
     required this.title,
     required this.icon,
-    required this.onClick,
     required this.inputType,
   }) : super(key: key);
 
@@ -25,6 +24,12 @@ class CustomTileWidget extends StatelessWidget {
               controller: controller,
               autocorrect: true,
               keyboardType: inputType,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter some Value';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 hintText: title,
                 border: InputBorder.none,
@@ -33,7 +38,7 @@ class CustomTileWidget extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(onPressed: onClick, icon: Icon(icon))
+          IconButton(onPressed: () {}, icon: Icon(icon))
         ],
       ),
     );

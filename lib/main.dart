@@ -32,6 +32,12 @@ class AttendoApp extends ConsumerWidget {
           },
           loading: () => LoadingScreen(),
           error: (e, stackTrace) => ErrorScreen(e, stackTrace)),
+          routes:  {
+            '/login': (context) => LoginPage(),
+            '/form': (context) => FormPage(),
+            '/home': (context) => HomePage(),
+          
+          },
     );
   }
 }
