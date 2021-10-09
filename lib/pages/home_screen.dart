@@ -1,3 +1,4 @@
+import 'package:attendo/pages/scanner_screen.dart';
 import 'package:attendo/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,6 +48,15 @@ class HomePage extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+          elevation: 0.0,
+          child: new Icon(Icons.qr_code_scanner),
+          onPressed: (){
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ScannerScreen(),
+            ));
+          }
       ),
     );
   }
