@@ -5,6 +5,7 @@ class CustomTileWidget extends StatelessWidget {
   final String title;
   final IconData icon;
   final TextInputType inputType;
+  final String? Function(String?) onChanged;
 
   const CustomTileWidget({
     Key? key,
@@ -12,6 +13,7 @@ class CustomTileWidget extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.inputType,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -24,12 +26,7 @@ class CustomTileWidget extends StatelessWidget {
               controller: controller,
               autocorrect: true,
               keyboardType: inputType,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter some Value';
-                }
-                return null;
-              },
+              validator: onChanged,
               decoration: InputDecoration(
                 hintText: title,
                 border: InputBorder.none,
