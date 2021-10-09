@@ -1,5 +1,6 @@
 import 'package:attendo/pages/scanner_screen.dart';
 import 'package:attendo/providers/auth_provider.dart';
+import 'package:attendo/providers/database_provider.dart';
 import 'package:attendo/providers/firebaseProviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +16,8 @@ class HomePage extends ConsumerWidget {
 
     //  Second variable to access the Logout Function
     final _auth = watch(authenticationProvider);
+
+    final _database = watch(databaseProvider);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -56,7 +59,11 @@ class HomePage extends ConsumerWidget {
           child: new Icon(Icons.qr_code_scanner),
           onPressed: (){
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ScannerScreen(),
+              builder: (context) => ScannerScreen(
+                name: data.currentUser!.displayName.toString(),
+                classId: "z7eydjQbpZKGYQTtYdGX",
+                enrollNo: "06015002819",
+              ),
             ));
           }
       ),
