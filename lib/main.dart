@@ -1,3 +1,4 @@
+import 'package:attendo/pages/form_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +32,12 @@ class AttendoApp extends ConsumerWidget {
           },
           loading: () => LoadingScreen(),
           error: (e, stackTrace) => ErrorScreen(e, stackTrace)),
+          routes:  {
+            '/login': (context) => LoginPage(),
+            '/form': (context) => FormPage(),
+            '/home': (context) => HomePage(),
+          
+          },
     );
   }
 }
@@ -43,7 +50,7 @@ class AuthChecker extends ConsumerWidget {
     final _authState = watch(authStateProvider);
     return _authState.when(
         data: (data) {
-          if (data != null) return HomePage();
+          if (data != null) return FormPage();
           return LoginPage();
         },
         loading: () => LoadingScreen(),

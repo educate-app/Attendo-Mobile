@@ -35,6 +35,8 @@ dependencies:
   firebase_core: ^1.7.0
   font_awesome_flutter: ^9.1.0
   qr_code_scanner: ^0.5.2
+  cloud_firestore: ^2.5.3
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:

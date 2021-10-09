@@ -1,9 +1,11 @@
 import 'package:attendo/pages/scanner_screen.dart';
 import 'package:attendo/providers/auth_provider.dart';
+import 'package:attendo/providers/firebaseProviders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomePage extends ConsumerWidget {
+  static const String routeName = '/home';
   const HomePage({Key? key}) : super(key: key);
 
   @override
