@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 import 'package:attendo/models/form_model.dart';
 import 'package:attendo/providers/auth_provider.dart';
 import 'package:attendo/providers/database_provider.dart';
 import 'package:attendo/providers/user_data_provider.dart';
-import 'package:intl/intl.dart';
 
 import 'scanner_screen.dart';
 
@@ -28,12 +28,20 @@ class HomePage extends ConsumerWidget {
     final _classesLive = watch(liveClassesProvider);
     final _classesPast = watch(pastClassesProvider);
 
+    _user.whenData((data) => _userData = data);
+
     _classesPast.whenData((value) {
       value?.forEach((element) {
         final id = element.id;
         final model = element.data();
         _pastClasses.add(ClassTileWidget(
-            name: model.name, live: model.live, date: model.createdOn, id: id));
+          name: model.name,
+          live: model.live,
+          date: model.createdOn,
+          id: id,
+          enrollment: _userData!.enrollmentnumber.toString(),
+          stuName: _userData!.name,
+        ));
       });
     });
 
@@ -42,13 +50,18 @@ class HomePage extends ConsumerWidget {
         final id = element.id;
         final model = element.data();
         _liveClasses.add(ClassTileWidget(
-            name: model.name, live: model.live, date: model.createdOn, id: id));
+          name: model.name,
+          live: model.live,
+          date: model.createdOn,
+          id: id,
+          enrollment: _userData!.enrollmentnumber.toString(),
+          stuName: _userData!.name,
+        ));
       });
     });
 
     print(_liveClasses.length);
 
-    _user.whenData((data) => _userData = data);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -106,6 +119,8 @@ class ClassTileWidget extends ConsumerWidget {
   bool live = false;
   final Timestamp date;
   final String id;
+  final String enrollment;
+  final String stuName;
 
   ClassTileWidget({
     Key? key,
@@ -113,11 +128,12 @@ class ClassTileWidget extends ConsumerWidget {
     required this.live,
     required this.date,
     required this.id,
+    required this.enrollment,
+    required this.stuName,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final _user = watch(currUserProvider).state;
     return ListTile(
       isThreeLine: true,
       leading: CircleAvatar(
@@ -131,9 +147,9 @@ class ClassTileWidget extends ConsumerWidget {
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ScannerScreen(
-                enrollNo: _user?.enrollmentnumber.toString() as String,
-                name: _user?.name as String,
-                classId: '5GWChdPRS1C9G5qXkpdM',
+                enrollNo: enrollment,
+                name: stuName,
+                classId: id,
               ),
             ));
           },
