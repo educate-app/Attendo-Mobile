@@ -38,7 +38,6 @@ class HomePage extends ConsumerWidget {
           name: model.name,
           live: model.live,
           date: model.createdOn,
-          used: model.attendees['used'],
           id: id,
           enrollment: _userData!.enrollmentnumber.toString(),
           stuName: _userData!.name,
@@ -57,7 +56,6 @@ class HomePage extends ConsumerWidget {
           id: id,
           enrollment: _userData!.enrollmentnumber.toString(),
           stuName: _userData!.name,
-          used: model.attendees['used'],
         ));
       });
     });
@@ -123,7 +121,6 @@ class ClassTileWidget extends ConsumerWidget {
   final String id;
   final String enrollment;
   final String stuName;
-  final bool used;
 
   ClassTileWidget({
     Key? key,
@@ -133,7 +130,6 @@ class ClassTileWidget extends ConsumerWidget {
     required this.id,
     required this.enrollment,
     required this.stuName,
-    required this.used,
   }) : super(key: key);
 
   @override
@@ -149,14 +145,13 @@ class ClassTileWidget extends ConsumerWidget {
           '${DateFormat('yyyy-MM-dd – kk:mm').format(date.toDate())} \n${live.toString().toUpperCase()}'),
       trailing: IconButton(
           onPressed: () {
-            if (used == false)
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ScannerScreen(
-                  enrollNo: enrollment,
-                  name: stuName,
-                  classId: id,
-                ),
-              ));
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ScannerScreen(
+                enrollNo: enrollment,
+                name: stuName,
+                classId: id,
+              ),
+            ));
           },
           icon: Icon(Icons.qr_code_scanner)),
     );
