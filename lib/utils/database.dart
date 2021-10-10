@@ -1,3 +1,4 @@
+import 'package:attendo/models/class_model.dart';
 import 'package:attendo/models/form_model.dart';
 import 'package:attendo/pages/home_screen.dart';
 import 'package:attendo/utils/shared_preferences_fetcher.dart';
@@ -56,6 +57,27 @@ class FirestoreDatabase {
           .get();
       return docs.data();
     } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<QueryDocumentSnapshot<ClassModel>>?> getClasses() async {
+    final collections = firestore
+        .collection('classes')
+        .withConverter<ClassModel>(
+            fromFirestore: (snapshots, _) =>
+                ClassModel.fromMap(snapshots.data()!),
+            toFirestore: (model, _) => model.toMap());
+    // .get();
+    try {
+      // final List<QueryDocumentSnapshot<ClassModel>> list = collections.docs;
+      final liveList = await collections.where('live', isEqualTo: true).get();
+
+      final pastList = await collections.where('live', isEqualTo: false).get();
+      // final temp = pastList.docs;
+      // print(temp);
+      return pastList.docs;
+    } on FirebaseFirestore catch (e) {
       print(e);
     }
   }

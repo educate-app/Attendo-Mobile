@@ -1,10 +1,15 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+
 typedef Map<String, dynamic> StudentDetails(params);
 
 class ClassModel {
   bool live = false;
   final String name;
-  final DateTime createdOn;
-  final Map<String, StudentDetails> attendees;
+  final Timestamp createdOn;
+  final Map<String, dynamic> attendees;
   ClassModel({
     required this.live,
     required this.name,
@@ -15,7 +20,7 @@ class ClassModel {
   ClassModel copyWith({
     bool? live,
     String? name,
-    DateTime? createdOn,
+    Timestamp? createdOn,
     Map<String, StudentDetails>? attendees,
   }) {
     return ClassModel(
@@ -30,7 +35,7 @@ class ClassModel {
     return {
       'live': live,
       'name': name,
-      'createdOn': createdOn.millisecondsSinceEpoch,
+      'createdOn': createdOn,
       'attendees': attendees,
     };
   }
@@ -39,8 +44,37 @@ class ClassModel {
     return ClassModel(
       live: map['live'],
       name: map['name'],
-      createdOn: DateTime.parse(map['createdOn']),
-      attendees: Map<String, StudentDetails>.from(map['attendees']),
+      createdOn: map['createdOn'],
+      attendees: Map<String, dynamic>.from(map['attendees']),
     );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ClassModel.fromJson(String source) =>
+      ClassModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'ClassModel(live: $live, name: $name, createdOn: $createdOn, attendees: $attendees)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ClassModel &&
+        other.live == live &&
+        other.name == name &&
+        other.createdOn == createdOn &&
+        mapEquals(other.attendees, attendees);
+  }
+
+  @override
+  int get hashCode {
+    return live.hashCode ^
+        name.hashCode ^
+        createdOn.hashCode ^
+        attendees.hashCode;
   }
 }
