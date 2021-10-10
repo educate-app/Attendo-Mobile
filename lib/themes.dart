@@ -15,4 +15,5 @@ class Themes {
       ));
 
   static Color navyblueshade1 = Color(0xff1C223A);
+  static Color blueTColor = Color(0xff1DA1F2);
 }

@@ -12,3 +12,7 @@ final liveClassesProvider =
     FutureProvider<List<QueryDocumentSnapshot<ClassModel>>?>((ref) async {
   return await ref.read(databaseProvider).getClasses();
 });
+final pastClassesProvider =
+    FutureProvider<List<QueryDocumentSnapshot<ClassModel>>?>((ref) async {
+  return await ref.read(databaseProvider).getOldClasses();
+});

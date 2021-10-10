@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:attendo/themes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +18,8 @@ class HomePage extends ConsumerWidget {
   static const String routeName = '/home';
   HomePage({Key? key}) : super(key: key);
 
-  List<ClassTileWidget> _widgets = [];
+  List<ClassTileWidget> _liveClasses = [];
+  List<ClassTileWidget> _pastClasses = [];
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     //  Second variable to access the Logout Function
@@ -25,17 +27,27 @@ class HomePage extends ConsumerWidget {
     final _user = watch(userProvider);
     FormModel? _userData = watch(currUserProvider).state;
     final _classesLive = watch(liveClassesProvider);
+    final _classesPast = watch(pastClassesProvider);
+
+    _classesPast.whenData((value) {
+      value?.forEach((element) {
+        final id = element.id;
+        final model = element.data();
+        _pastClasses.add(ClassTileWidget(
+            name: model.name, live: model.live, date: model.createdOn, id: id));
+      });
+    });
 
     _classesLive.whenData((value) {
       value?.forEach((element) {
         final id = element.id;
         final model = element.data();
-        _widgets.add(ClassTileWidget(
+        _liveClasses.add(ClassTileWidget(
             name: model.name, live: model.live, date: model.createdOn, id: id));
       });
     });
 
-    print(_widgets.length);
+    print(_liveClasses.length);
 
     _user.whenData((data) => _userData = data);
     return Scaffold(
@@ -65,8 +77,24 @@ class HomePage extends ConsumerWidget {
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
-            // ClassTileWidget(),
-            ..._widgets,
+            if (_liveClasses.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Live Classes',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ),
+            ..._liveClasses,
+            if (_pastClasses.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Past Classes',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ),
+            ..._pastClasses,
           ],
         ),
       )),

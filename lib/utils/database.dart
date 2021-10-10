@@ -73,6 +73,25 @@ class FirestoreDatabase {
       // final List<QueryDocumentSnapshot<ClassModel>> list = collections.docs;
       final liveList = await collections.where('live', isEqualTo: true).get();
 
+      // final temp = pastList.docs;
+      // print(temp);
+      return liveList.docs;
+    } on FirebaseFirestore catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<QueryDocumentSnapshot<ClassModel>>?> getOldClasses() async {
+    final collections = firestore
+        .collection('classes')
+        .withConverter<ClassModel>(
+            fromFirestore: (snapshots, _) =>
+                ClassModel.fromMap(snapshots.data()!),
+            toFirestore: (model, _) => model.toMap());
+    // .get();
+    try {
+      // final List<QueryDocumentSnapshot<ClassModel>> list = collections.docs;
+
       final pastList = await collections.where('live', isEqualTo: false).get();
       // final temp = pastList.docs;
       // print(temp);
