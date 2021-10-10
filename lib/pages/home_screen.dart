@@ -15,10 +15,12 @@ import 'scanner_screen.dart';
 
 class HomePage extends ConsumerWidget {
   static const String routeName = '/home';
+
   HomePage({Key? key}) : super(key: key);
 
   List<ClassTileWidget> _liveClasses = [];
   List<ClassTileWidget> _pastClasses = [];
+
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     //  Second variable to access the Logout Function
@@ -34,6 +36,13 @@ class HomePage extends ConsumerWidget {
       value?.forEach((element) {
         final id = element.id;
         final model = element.data();
+        bool attended = false;
+        model.attendees.forEach((key, value) {
+          if (model.attendees[key]['studentEnr'] ==
+              _userData!.enrollmentnumber.toString()) {
+            attended = true;
+          }
+        });
         _pastClasses.add(ClassTileWidget(
           name: model.name,
           live: model.live,
@@ -41,6 +50,7 @@ class HomePage extends ConsumerWidget {
           id: id,
           enrollment: _userData!.enrollmentnumber.toString(),
           stuName: _userData!.name,
+          isAttended: attended,
         ));
       });
     });
@@ -49,6 +59,13 @@ class HomePage extends ConsumerWidget {
       value?.forEach((element) {
         final id = element.id;
         final model = element.data();
+        bool attended = false;
+        model.attendees.forEach((key, value) {
+          if (model.attendees[key]['studentEnr'] ==
+              _userData!.enrollmentnumber.toString()) {
+            attended = true;
+          }
+        });
         _liveClasses.add(ClassTileWidget(
           name: model.name,
           live: model.live,
@@ -56,6 +73,7 @@ class HomePage extends ConsumerWidget {
           id: id,
           enrollment: _userData!.enrollmentnumber.toString(),
           stuName: _userData!.name,
+          isAttended: attended,
         ));
       });
     });
@@ -121,6 +139,7 @@ class ClassTileWidget extends ConsumerWidget {
   final String id;
   final String enrollment;
   final String stuName;
+  final bool isAttended;
 
   ClassTileWidget({
     Key? key,
@@ -130,30 +149,38 @@ class ClassTileWidget extends ConsumerWidget {
     required this.id,
     required this.enrollment,
     required this.stuName,
+    required this.isAttended,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return ListTile(
-      isThreeLine: true,
       leading: CircleAvatar(
         backgroundColor: live ? Colors.green : Colors.red,
         radius: 14,
       ),
       title: Text(name),
       subtitle: Text(
-          '${DateFormat('yyyy-MM-dd – kk:mm').format(date.toDate())} \n${live.toString().toUpperCase()}'),
-      trailing: IconButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ScannerScreen(
-                enrollNo: enrollment,
-                name: stuName,
-                classId: id,
-              ),
-            ));
-          },
-          icon: Icon(Icons.qr_code_scanner)),
+          '${DateFormat('yyyy-MM-dd – kk:mm').format(date.toDate())}'),
+      trailing: isAttended
+          ? Icon(
+              Icons.check,
+              color: Colors.green,
+            )
+          : live
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ScannerScreen(
+                        enrollNo: enrollment,
+                        name: stuName,
+                        classId: id,
+                      ),
+                    ));
+                  },
+                  icon: Icon(Icons.qr_code_scanner),
+                )
+              : Icon(Icons.cancel, color: Colors.red),
     );
   }
 }
