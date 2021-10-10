@@ -39,3 +39,16 @@ To build and run this project:
  3. Enable Authentication and Cloud Firestore in the Firebase console.
 
 
+## Screenshots
+
+<p align = "left">
+
+<img src = "screenshots\Screenshot_1633847744.png" height = "50%">
+
+<img src = "screenshots\Screenshot_1633847756.png" height = "50%">
+
+<img src = "screenshots\Screenshot_1633847760.png" height = "50%">
+
+<img src = "screenshots\Screenshot_1633848202.png" height = "50%">
+
+</p>
