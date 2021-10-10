@@ -1,16 +1,41 @@
-# attendo
+<p  align="center">
+<a  href="https://flutter.dev"  target="_blank"><img  height="75"  src="https://upload.wikimedia.org/wikipedia/commons/1/17/Google-flutter-logo.png"  alt="Flutter Logo"></a> <a>&nbsp;&nbsp;&nbsp;</a>
+<a  href="https://firebase.google.com/"  target="_blank"><img    height="75"  src="https://firebase.google.com/images/brand-guidelines/logo-built_white.png"  alt="Firebase Logo"></a>
+</p>
 
-A new Flutter application.
+<center>
 
-## Getting Started
+ <img src = "assets\logos\Attendo-logos_transparent.png"   height = "200" >
 
-This project is a starting point for a Flutter application.
+# Attendance made Simple
 
-A few resources to get you started if this is your first Flutter project:
+</center>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Description
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is a functional attendance system for students. It is a mobile application that allows students to check in and out of classes. The app shows the available list of **Live** and **Past** Classes. To mark their attendance in the current live class, the student needts to scan a QR Code of the class. The QR code is lively shared by the teacher throught screen share. When a student scans the QR code, the attendance of the student is marked and thus the previous QR code is no longer valid. So for each student, the QR code is different. Also if the teacher closes the live QR sharing, even though the QR code is not scanned by others and is attempted to use that after live button is closed, the attendance will not take place
+
+## Problem Statement
+
+Marking and maintaining attendance of the lectures is a tedious task and students are also using bad practices to mark their attendance. So there is a need of fast, organised and time efficient method to record attendance. 
+
+## Installation and Developing Locally
+
+### Flutter
+
+To build and run this project:
+
+1. Get Flutter [here](https://flutter.dev) if you don't already have it
+2. Clone this repository
+3. `cd` into the repo folder
+4. run `flutter run-android` or `flutter run-ios` to build the app
+
+(Please note that a Mac with XCode is required to build for iOS)
+
+### Firebase
+
+ 1. Create a new project in [Firebase console](https://console.firebase.google.com/).
+ 2. Integrate Firebase to [Android](https://firebase.flutter.dev/docs/installation/android) and [iOS](https://firebase.flutter.dev/docs/installation/ios).
+ 3. Enable Authentication and Cloud Firestore in the Firebase console.
+
+

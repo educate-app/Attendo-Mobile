@@ -95,17 +95,17 @@ class _LoginPageState extends State<LoginPage> {
             }
           }
 
-          Future<void> _loginWithGoogle() async {
-            loading2();
-            await _auth
-                .signInWithGoogle(context)
-                .whenComplete(() => _auth.authStateChange.listen((event) async {
-                      if (event == null) {
-                        loading2();
-                        return;
-                      }
-                    }));
-          }
+          // Future<void> _loginWithGoogle() async {
+          //   loading2();
+          //   await _auth
+          //       .signInWithGoogle(context)
+          //       .whenComplete(() => _auth.authStateChange.listen((event) async {
+          //             if (event == null) {
+          //               loading2();
+          //               return;
+          //             }
+          //           }));
+          // }
 
           return Form(
             key: _formKey,
@@ -248,40 +248,40 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.only(top: 32.0),
-                            margin: const EdgeInsets.symmetric(horizontal: 16),
-                            width: double.infinity,
-                            child: _isLoading2
-                                ? Center(child: CircularProgressIndicator())
-                                : MaterialButton(
-                                    onPressed: _loginWithGoogle,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        //  A google icon here
-                                        //  an External Package used here
-                                        //  Font_awesome_flutter package used
-                                        FaIcon(FontAwesomeIcons.google),
-                                        Text(
-                                          ' Login with Google',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    ),
-                                    textColor: Colors.blue.shade700,
-                                    textTheme: ButtonTextTheme.primary,
-                                    minWidth: 100,
-                                    padding: const EdgeInsets.all(18),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25),
-                                      side: BorderSide(
-                                          color: Colors.blue.shade700),
-                                    ),
-                                  ),
-                          ),
+                          // Container(
+                          //   padding: const EdgeInsets.only(top: 32.0),
+                          //   margin: const EdgeInsets.symmetric(horizontal: 16),
+                          //   width: double.infinity,
+                          //   child: _isLoading2
+                          //       ? Center(child: CircularProgressIndicator())
+                          //       : MaterialButton(
+                          //           onPressed: _loginWithGoogle,
+                          //           child: Row(
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.center,
+                          //             children: [
+                          //               //  A google icon here
+                          //               //  an External Package used here
+                          //               //  Font_awesome_flutter package used
+                          //               FaIcon(FontAwesomeIcons.google),
+                          //               Text(
+                          //                 ' Login with Google',
+                          //                 style: TextStyle(
+                          //                     fontWeight: FontWeight.w600),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //           textColor: Colors.blue.shade700,
+                          //           textTheme: ButtonTextTheme.primary,
+                          //           minWidth: 100,
+                          //           padding: const EdgeInsets.all(18),
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(25),
+                          //             side: BorderSide(
+                          //                 color: Colors.blue.shade700),
+                          //           ),
+                          //         ),
+                          // ),
                           Spacer(),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 24.0),
